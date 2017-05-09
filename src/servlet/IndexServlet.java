@@ -14,13 +14,21 @@ public class IndexServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setAttribute("teszt", "SALALALALALA");
+		TaskManager tm = new TaskManager();
+		request.setAttribute("tasks", tm.formatTasks(tm.getTaskList(request.getSession())));
 		request.getRequestDispatcher("/index.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		TaskManager tm = new TaskManager();
-		tm.saveTask(request.getParameter("task"), 0, request.getSession());
+		if ( request.getParameterMap().containsKey("task")) {
+			Integer id = tm.saveTask(request.getParameter("task"), 0, request.getSession());	
+			response.setHeader("id", id.toString()); 
+		}
+		
+		if ( request.getParameterMap().containsKey("del")) {
+			tm.removeTask( Integer.valueOf(request.getParameter("del")) );
+		}
 	}
 
 }
