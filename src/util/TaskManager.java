@@ -7,6 +7,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import com.google.gson.Gson;
+
 public class TaskManager {
 
 	SQLConnector sqlConnector = new SQLConnector();
@@ -14,7 +16,7 @@ public class TaskManager {
 	public Integer getCurrentId() {
 		ResultSet rs = sqlConnector.getData("SELECT MAX(id) FROM tasks");
 		try {
-			if ( rs.next() ) {
+			if (rs.next()) {
 				return rs.getInt(1) + 1;
 			}
 		} catch (SQLException e) {
@@ -22,15 +24,15 @@ public class TaskManager {
 		}
 		return -1;
 	}
-	
+
 	public int saveTask(String content, int index, HttpSession session) {
 		int id = getCurrentId();
-		
-		if ( !content.equals("") ) {
-			sqlConnector.sendQuery(
-					"INSERT INTO tasks VALUES ('" + id + "', '" + content + "', '0', '" + session.getId().toString() + "', '0');");
+
+		if (!content.equals("")) {
+			sqlConnector.sendQuery("INSERT INTO tasks VALUES ('" + id + "', '" + content + "', '0', '"
+					+ session.getId().toString() + "', '0');");
 		}
-		
+
 		return id;
 	}
 
@@ -53,10 +55,11 @@ public class TaskManager {
 		}
 		return taskList;
 	}
-	
-	public List<Task> getTaskList(HttpSession session) {
+
+	public List<Task> getTaskList(String key) {
 		List<Task> taskList = new ArrayList<>();
-		ResultSet rs = sqlConnector.getData("SELECT * FROM tasks WHERE sessionID = '" + session.getId() + "'");
+		System.out.println("Key: " + key);
+		ResultSet rs = sqlConnector.getData("SELECT * FROM tasks WHERE taskKey = '" + key + "'");
 
 		try {
 			while (rs.next()) {
@@ -78,20 +81,18 @@ public class TaskManager {
 
 		return task;
 	}
-	
+
+	public void completeTask(int id) {
+		sqlConnector.sendQuery("UPDATE tasks SET status = '2' WHERE id = '" + id + "'");
+	}
+
 	public void removeTask(int id) {
 		sqlConnector.sendQuery("DELETE FROM tasks WHERE id = '" + id + "'");
 	}
-	
+
 	public String formatTasks(List<Task> tasks) {
-		
-		String html = "";
-		for ( Task task : tasks ) {
-			String icons = "<div class='icons'><i onClick='iconClick(this);' class='fa fa-trash' aria-hidden='true'></i></div></li>";
-			html = "<li id='" + task.getId() + "' class='task'>" + task.getContent() + icons + html;
-		}
-		
-		return html;
+		Gson gTasks = new Gson();
+		return gTasks.toJson(tasks);		
 	}
 
 }

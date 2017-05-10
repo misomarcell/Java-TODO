@@ -1,3 +1,7 @@
+body {
+	font-family: 'Lato', sans-serif;
+}
+
 .main-container {
 	width: 50%;
 	margin: auto; 
@@ -14,18 +18,38 @@
 	padding: 10px;
 }
 
+textarea:focus, input:focus{
+    outline: none;
+}
+
+.menu {
+	margin: auto;
+	width: 50%; 
+	text-align: right;
+}
+
+.menu a {
+	color: #000;
+	text-decoration: none;
+	margin-right: 5px;
+} 
+
+.menu a:hover {
+	border-top: 3px solid #000 !important;
+}
+
 .main-input:focus {  
 	background-color: rgba(0,0,0,0.1);
 }
  
 .task-list {
 	width: 100%;
+	counter-reset: section;
 } 
 
 .todo-list { 
 	list-style: none; 
 	margin: 0px !important;
-	counter-reset: section;
 }
 .task {
 	padding-left: 10px;
@@ -33,7 +57,6 @@
 	padding-bottom: 8px;
 	margin-left: -40px;
 	font-size: 20px;
-	font-family: 'Lato', sans-serif;
 }​
 
 .task::before {
@@ -41,13 +64,17 @@
     content: "" counter(section) ". ";
 }
 
-.task:nth-child(odd){
+.task:nth-child(odd){ 
    	background-color: rgba(0,0,0,0.2);
 }
 
-.icons {
+.icons { 
 	display: inline-block;
 	float: right;
-	margin-right: 20px;
+	margin-right: 20px; 
 	cursor: pointer;
+}
+
+.fa {
+	margin-left: 10px !important;
 }
