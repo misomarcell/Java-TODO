@@ -21,29 +21,18 @@ function printTask(id, content, status) {
 	$(".todo-list").prepend(a);
 	
 	if ( status == 2 ) {
-		//$(a).css("text-decoration", "line-through");
 		document.getElementById(id).style.textDecoration = "line-through";
 	}
 	
 	$(".main-input").val("");
 }
 
-function getKey() {
-	var a = $.ajax({
-		type: "GET",
-	    url: "",
-	    success: function () {
-	    	alert("done! "+ geturl.getAllResponseHeaders());
-	    }
-	});
-}
 
 $(document).ready(
 	function() {
 		console.log("Oldal betöltve. 1.8 1 ");
 
 		getTasks();
-		getKey();
 
 		$(".main-input")
 			.keypress(function(e) {

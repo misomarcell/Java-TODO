@@ -56,10 +56,9 @@ public class TaskManager {
 		return taskList;
 	}
 
-	public List<Task> getTaskList(String key) {
+	public List<Task> getTaskList(HttpSession session) {
 		List<Task> taskList = new ArrayList<>();
-		System.out.println("Key: " + key);
-		ResultSet rs = sqlConnector.getData("SELECT * FROM tasks WHERE taskKey = '" + key + "'");
+		ResultSet rs = sqlConnector.getData("SELECT * FROM tasks WHERE taskKey = '" + session.getId() + "'");
 
 		try {
 			while (rs.next()) {

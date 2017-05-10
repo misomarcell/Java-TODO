@@ -16,15 +16,12 @@ public class IndexServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		if ( !request.getParameterMap().containsKey("key") ) {
-			response.setHeader("key", "asdasd");
-		}
-
 		request.getRequestDispatcher("./index.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
 		if (request.getParameterMap().containsKey("task")) {
 			Integer id = tm.saveTask(request.getParameter("task"), 0, request.getSession());
 			response.setHeader("id", id.toString());
