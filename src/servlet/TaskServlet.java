@@ -16,6 +16,7 @@ public class TaskServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		TaskManager tm = new TaskManager();
 		
+		response.setCharacterEncoding("UTF-8");
 		response.getWriter().println(tm.formatTasks(tm.getTaskList(request.getSession())));
 	}
 

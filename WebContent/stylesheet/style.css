@@ -35,7 +35,7 @@ textarea:focus, input:focus{
 } 
 
 .menu a:hover {
-	border-top: 3px solid #000 !important;
+	border-top: 1px solid #000 !important;
 }
 
 .main-input:focus {  
@@ -72,9 +72,50 @@ textarea:focus, input:focus{
 	display: inline-block;
 	float: right;
 	margin-right: 20px; 
-	cursor: pointer;
+	cursor: pointer; 
 }
 
 .fa {
-	margin-left: 10px !important;
+	margin-left: 10px !important; 
+}
+
+.empty {
+	width: 500px;
+	max-width: 50%; 
+	margin-top: 20px;  
+	opacity: 0.3;
+}
+
+.email {
+	float: left;
+}
+
+.login-container {
+	margin: auto;
+	width: 300px;  
+} 
+
+.login-input {
+	border: 1px solid #000;
+	width: 100%; 
+	margin: 5px;
+	height: 30px;
+	padding: 5px;
+	font-size: 18px;
+} 
+ 
+.login-button { 
+	width: 104%;
+	height: 30px;
+	background-color: rgba(0,0,0,0.1); 
+	border: 1px solid #000;
+	padding: 5px;
+	margin-bottom: 5px;
+	margin-left: 5px;
+	font-size: 14px;
+}
+
+.title {
+	font-size: 46px;
+	font-weight: 600;
 }

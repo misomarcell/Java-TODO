@@ -12,7 +12,8 @@ import com.google.gson.Gson;
 public class TaskManager {
 
 	SQLConnector sqlConnector = new SQLConnector();
-
+	Data data = Data.newInstance();
+	
 	public Integer getCurrentId() {
 		ResultSet rs = sqlConnector.getData("SELECT MAX(id) FROM tasks");
 		try {
@@ -30,7 +31,7 @@ public class TaskManager {
 
 		if (!content.equals("")) {
 			sqlConnector.sendQuery("INSERT INTO tasks VALUES ('" + id + "', '" + content + "', '0', '"
-					+ session.getId().toString() + "', '0');");
+					+ data.getEmailBySessionID(session.getId()) + "', '0');");
 		}
 
 		return id;
@@ -58,7 +59,8 @@ public class TaskManager {
 
 	public List<Task> getTaskList(HttpSession session) {
 		List<Task> taskList = new ArrayList<>();
-		ResultSet rs = sqlConnector.getData("SELECT * FROM tasks WHERE taskKey = '" + session.getId() + "'");
+		Data data = Data.newInstance();
+		ResultSet rs = sqlConnector.getData("SELECT * FROM tasks WHERE email = '" + data.getEmailBySessionID(session.getId()) + "'");
 
 		try {
 			while (rs.next()) {
@@ -82,7 +84,24 @@ public class TaskManager {
 	}
 
 	public void completeTask(int id) {
-		sqlConnector.sendQuery("UPDATE tasks SET status = '2' WHERE id = '" + id + "'");
+		ResultSet rs = sqlConnector.getData("SELECT status FROM tasks WHERE id = '" + id + "'");
+		String status = "";
+		try {
+			if ( rs.next() ) {
+				status = rs.getString(1);
+			}
+		} catch (SQLException e) {
+			System.out.println("Error @ completeTask: " + e.getMessage());
+		}
+		
+		String newStatus = "0";
+		if ( status.equals("0") ) {
+			newStatus = "2";
+		} else {
+			newStatus = "0";
+		}
+		
+		sqlConnector.sendQuery("UPDATE tasks SET status = '" + newStatus + "' WHERE id = '" + id + "'");
 	}
 
 	public void removeTask(int id) {

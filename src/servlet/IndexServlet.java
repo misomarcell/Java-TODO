@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import util.Data;
 import util.TaskManager;
 
 @WebServlet(urlPatterns = "", name = "IndexServlet")
@@ -15,12 +16,17 @@ public class IndexServlet extends HttpServlet {
 	private TaskManager tm = new TaskManager();
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		response.setCharacterEncoding("UTF-8");
+		Data data = Data.newInstance();
+		request.setAttribute("email", data.getEmailBySessionID(request.getSession().getId()));
+		
 		request.getRequestDispatcher("./index.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		response.setCharacterEncoding("UTF-8");
 		
 		if (request.getParameterMap().containsKey("task")) {
 			Integer id = tm.saveTask(request.getParameter("task"), 0, request.getSession());
